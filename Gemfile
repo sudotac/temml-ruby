@@ -24,7 +24,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in katex.gemspec
+# Specify your gem's dependencies in temml.gemspec
 gemspec
 
 if ENV['TRAVIS']
