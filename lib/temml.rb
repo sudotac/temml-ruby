@@ -29,7 +29,7 @@ require 'erb'
 # Provides a Ruby wrapper for Temml server-side rendering.
 module Temml
   @load_context_mutex = Mutex.new
-  @context = nil
+  @temml_context = nil
   @execjs_runtime = -> { ExecJS.runtime }
 
   class << self
@@ -82,7 +82,7 @@ module Temml
 
     def temml_context
       @load_context_mutex.synchronize do
-        @context ||= @execjs_runtime.call.compile File.read temml_js_path
+        @temml_context ||= @execjs_runtime.call.compile File.read temml_js_path
       end
     end
 
@@ -117,17 +117,17 @@ module Temml
   end
 end
 
-if defined?(::Rails)
+if defined?(Rails)
   require 'temml/engine'
 else
   assets_path = File.join(Temml.gem_path, 'vendor', 'temml')
-  if defined?(::Sprockets)
+  if defined?(Sprockets)
     %w[fonts javascripts images].each do |subdirectory|
       path = File.join(assets_path, subdirectory)
       Sprockets.append_path(path) if File.directory?(path)
     end
     Sprockets.append_path(File.join(assets_path, 'sprockets', 'stylesheets'))
-  elsif defined?(::Hanami)
+  elsif defined?(Hanami)
     Hanami::Assets.sources << assets_path
   end
 end

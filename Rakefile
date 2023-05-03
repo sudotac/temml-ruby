@@ -44,12 +44,10 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
   unless File.exist?(archive_path)
     url = 'https://github.com/ronkok/Temml/archive/refs/tags/' \
           "v#{version}.tar.gz"
-    IO.copy_stream(URI.open(url), archive_path)
+    IO.copy_stream(URI.open(url), archive_path) # rubocop:disable Security/Open
   end
   temml_path = File.join(File.dirname(archive_path), "Temml-#{version}")
-  unless File.directory?(temml_path)
-    system 'tar', 'xf', archive_path, '-C', File.dirname(archive_path)
-  end
+  system 'tar', 'xf', archive_path, '-C', File.dirname(archive_path) unless File.directory?(temml_path)
   dist_path = File.join(temml_path, 'dist')
 
   # Copy assets
@@ -59,9 +57,7 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
   fonts_path = File.join(assets_path, 'fonts')
   FileUtils.mkdir_p fonts_path
   FileUtils.cp File.join(dist_path, 'Temml.woff2'), fonts_path
-  if File.directory? File.join(dist_path, 'images')
-    FileUtils.cp_r File.join(dist_path, 'images'), assets_path
-  end
+  FileUtils.cp_r File.join(dist_path, 'images'), assets_path if File.directory? File.join(dist_path, 'images')
   js_path = File.join(assets_path, 'javascripts')
   FileUtils.mkdir_p js_path
   FileUtils.cp File.join(dist_path, 'temml.min.js'), js_path
@@ -76,7 +72,7 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
 
     # Create sprockets versions of temml CSS that use asset-path for referencing
     # fonts. One is a Sass version and the other one is .css.erb.
-    asset_url_regex = %r{url\(['"]?(?:.\/)?([^'")]*)['"]?\)}
+    asset_url_regex = %r{url\(['"]?(?:./)?([^'")]*)['"]?\)}
     css_content = File.read(var_css)
     File.write(File.join(sprockets_css_path, "_Temml-#{variant}.scss"),
                css_content.gsub(asset_url_regex, "url(asset-path('\\1'))"))
