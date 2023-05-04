@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/sudotac/temml-ruby'
   s.license = 'MIT'
 
-  s.required_ruby_version = '>= 2.3'
+  s.required_ruby_version = '>= 3.0'
 
   s.files = Dir['{exe,lib,vendor}/**/*'] + %w[LICENSE.txt README.md]
   s.bindir = 'exe'
