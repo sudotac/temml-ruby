@@ -35,11 +35,11 @@ Gem::Specification.new do |s|
   s.summary = 'Renders Temml from Ruby.'
   s.description = 'Exposes Temml server-side renderer to Ruby.'
   s.homepage = 'https://github.com/sudotac/temml-ruby'
-  s.license = 'MIT'
+  s.license = 'CC0-1.0 AND MIT'
 
   s.required_ruby_version = '>= 3.0'
 
-  s.files = Dir['{exe,lib,vendor}/**/*'] + %w[LICENSE.txt README.md]
+  s.files = Dir['{exe,lib,vendor,license}/**/*'] + %w[COPYING.txt README.md]
   s.bindir = 'exe'
   s.executables = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
   s.require_paths = ['lib']
