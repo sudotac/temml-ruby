@@ -1,6 +1,10 @@
-# KaTeX for Ruby [![Build Status](https://travis-ci.org/glebm/katex-ruby.svg?branch=master)](https://travis-ci.org/glebm/katex-ruby) [![Test Coverage](https://codeclimate.com/github/glebm/katex-ruby/badges/coverage.svg)](https://codeclimate.com/github/glebm/katex-ruby/coverage) [![Code Climate](https://codeclimate.com/github/glebm/katex-ruby/badges/gpa.svg)](https://codeclimate.com/github/glebm/katex-ruby)
+# Temml for Ruby
 
-This rubygem enables you to render TeX math to HTML using [KaTeX].
+[![](https://github.com/sudotac/temml-ruby/actions/workflows/ci.yml/badge.svg)](https://github.com/sudotac/temml-ruby/actions/workflows/ci.yml)
+
+temml-ruby is a fork of [katex-ruby], focusing on the support of [Temml] instead of [KaTeX].
+
+This rubygem enables you to render TeX math to MathML using [Temml].
 It uses [ExecJS] under the hood.
 
 ## Installation
@@ -8,24 +12,24 @@ It uses [ExecJS] under the hood.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'katex', '~> 0.9.0'
+gem 'temml', '~> 0.1.0', :github => 'sudotac/temml-ruby'
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Or install it yourself with [specific\_install rubygem](https://rubygems.org/gems/specific_install) as:
 
-    $ gem install katex
+    $ gem specific_install https://github.com/sudotac/temml-ruby.git
 
 ## Usage
 
 Render some math:
 
 ```ruby
-Katex.render 'c = \\pm\\sqrt{a^2 + b^2}'
-#=> "<span class=\"katex\">..."
+Temml.render('c = \\pm\\sqrt{a^2 + b^2}')
+=> "<math><mrow><mi>c</mi><mo>=</mo></mrow><mrow><mo>±</mo></mrow><mrow><msqrt><mrow><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup></mrow></msqrt></mrow></math>"
 ```
 
 If you're on Rails, the result is marked as `html_safe`.
@@ -34,52 +38,56 @@ Any error in the markup is raised by default. To avoid this and render error
 text instead, pass `throw_on_error: false`:
 
 ```ruby
-Katex.render '\\', throw_on_error: false
+Temml.render '\\', throw_on_error: false
+=> "<span class=\"temml-error\" style=\"color:#b22222;white-space:pre-line;\">\\\nParseError:  Unexpected character: &#x27;\\&#x27; at position 1: \\̲</span>"
 ```
 
-Note that this will catch even `ParseError`s (unlike native KaTeX).
-
-Learn more about all the available options in the
-[documentation](http://www.rubydoc.info/gems/katex/Katex#render-class_method).
+Note that this will catch even `ParseError`s (unlike native Temml).
 
 ### Assets
 
-For this rendered math to look nice, you will also need to include KaTeX CSS
-into the webpage.
+For this rendered math to look nice, you will also need to include Temml CSS
+and web fonts into the webpage.
 
 I recommend you use the CSS bundled with this gem, to ensure version
 compatibility.
+
+You also need to include the appropriate web fonts for the CSS
+you have chosen to use.
+Please refer to [Temml's documentation](https://temml.org/docs/en/administration.html#fonts)
+for details.
 
 #### Automatic registrations
 
 If you use Rails, Sprockets without Rails, or Hanami, the assets are registered
 automatically.
 
-Simply `//= require katex` if you use CSS or `@import "_katex"` if you use Sass.
+For example, if you want to use Latin Modern font,
+`//= require Temml-Latin-Modern` if you use CSS or `@import "_Temml-Latin-Modern"` if you use Sass.
 
-You can also `//= require katex` in your JS to access the KaTeX renderer in the
+You can also `//= require temml` in your JS to access the Temml renderer in the
 browser.
 
 #### Manual registration
 
 The assets are located in the `vendor/assets` directory of the gem. The root
-path to the root directory of the gem is available via `Katex.gem_path`, e.g.:
+path to the root directory of the gem is available via `Temml.gem_path`, e.g.:
 
 ```ruby
-File.join(Katex.gem_path, 'vendor', 'assets')
+File.join(Temml.gem_path, 'vendor', 'assets')
 ```
 
-### KaTeX version
+### Temml version
 
-The version of KaTeX bundled with this gem is available via:
+The version of Temml bundled with this gem is available via:
 
 ```ruby
-Katex::KATEX_VERSION
+Temml::TEMML_VERSION
 ```
 
 ### Caching
 
-If you cache the output of `Katex.render`, make sure to use the KaTeX
+If you cache the output of `Temml.render`, make sure to use the Temml
 version in the cache key, as the output may change between versions.
 
 ## Development
@@ -89,15 +97,11 @@ Then, run `rake spec` to run the tests. You can also run `bin/console` for an
 interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`.
-To release a new version, update the version number in `version.rb`,
-and then run `bundle exec rake release`,
-which will create a git tag for the version, push git commits and tags,
-and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at
-https://github.com/glebm/katex-ruby.
+https://github.com/sudotac/temml-ruby.
 
 This project is intended to be a safe, welcoming space for collaboration,
 and contributors are expected to adhere to the
@@ -110,5 +114,7 @@ The gem is available as open source under the terms of the
 [MIT License](http://opensource.org/licenses/MIT).
 
 
+[katex-ruby]: https://github.com/glebm/katex-ruby
 [KaTeX]: https://github.com/Khan/KaTeX
+[Temml]: https://github.com/ronkok/Temml
 [ExecJS]: https://github.com/rails/execjs
