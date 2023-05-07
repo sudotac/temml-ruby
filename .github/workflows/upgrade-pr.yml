@@ -1,0 +1,38 @@
+name: Upgrade Temml if possible
+on:
+  schedule:
+    - cron: '30 18 * * 4'
+jobs:
+  pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        with:
+          bundler-cache: true
+          ruby-version: '3.2'
+      - name: Check versions
+        id: check-versions
+        run: |
+          current_version=$(perl -ne "print \$1 if /TEMML_VERSION = '(\d+\.\d+\.\d+)'/" lib/temml/version.rb)
+          upstream_version=$(curl -sL https://api.github.com/repos/ronkok/Temml/releases/latest | jq -r '.tag_name' | sed 's/^v//')
+          newer_version=$(echo -e "${current_version}\n${upstream_version}" | sort -V | tail -n1)
+          { \
+            echo "current_version=${current_version}"; \
+            echo "upstream_version=${upstream_version}"; \
+            echo "newer_version=${newer_version}"; \
+          } >> "$GITHUB_OUTPUT"
+      - name: Import Temml assets
+        if: steps.check-versions.outputs.newer_version == steps.check-versions.outputs.upstream_version
+        run: |
+          bundle exec rake "update[${{ steps.check-versions.outputs.newer_version }}]"
+      - uses: peter-evans/create-pull-request@v5
+        if: steps.check-versions.outputs.newer_version == steps.check-versions.outputs.upstream_version
+        with:
+          commit-message: rake update[${{ steps.check-versions.outputs.newer_version }}]
+          branch: upgrade-temml-to-${{ steps.check-versions.outputs.newer_version }}
+          delete-branch: true
+          title: Upgrade Temml to v${{ steps.check-versions.outputs.newer_version }}
+          body: Upgrade Temml to v${{ steps.check-versions.outputs.newer_version }}
+          assignees: sudotac
+          reviewers: sudotac
