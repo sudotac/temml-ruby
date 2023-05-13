@@ -22,6 +22,9 @@ jobs:
             echo "upstream_version=${upstream_version}"; \
             echo "newer_version=${newer_version}"; \
           } >> "$GITHUB_OUTPUT"
+          echo "current version: ${current_version}"
+          echo "upstream version: ${upstream_version}"
+          echo "newer_version: ${newer_version}"
       - name: Import Temml assets
         if: steps.check-versions.outputs.newer_version == steps.check-versions.outputs.upstream_version
         run: |
