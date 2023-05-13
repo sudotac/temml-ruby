@@ -26,3 +26,9 @@ source 'https://rubygems.org'
 
 # Specify your gem's dependencies in temml.gemspec
 gemspec
+
+gem 'bundler', '~> 2.0'
+gem 'rake', '~> 13.0'
+gem 'rspec', '~> 3.0'
+gem 'rubocop', '~> 1.0'
+gem 'simplecov', '~> 0.22.0'

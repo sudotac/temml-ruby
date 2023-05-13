@@ -46,11 +46,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'execjs', '~> 2.7'
 
-  s.add_development_dependency 'bundler', '~> 2.0'
-  s.add_development_dependency 'rake', '~> 13.0'
-  s.add_development_dependency 'rspec', '~> 3.0'
-  s.add_development_dependency 'rubocop', '~> 1.0'
-  s.add_development_dependency 'simplecov', '~> 0.22.0'
-
   s.metadata['rubygems_mfa_required'] = 'false' # rubocop:disable Gemspec/RequireMFA
 end
