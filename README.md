@@ -12,7 +12,7 @@ It uses [ExecJS] under the hood.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'temml', '~> 0.2.0', :github => 'sudotac/temml-ruby'
+gem 'temml', '~> 0.3.0', :github => 'sudotac/temml-ruby'
 ```
 
 And then execute:
