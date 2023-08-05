@@ -110,10 +110,10 @@ and contributors are expected to adhere to the
 
 ## License
 
-This gem is based on [katex-ruby]() and my contribution is tiny and trivial,
+This gem is based on [katex-ruby] and my contribution is tiny and trivial,
 so I will make this gem available under the terms of [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
 
-Note that you should still have to follow the licenses of [katex-ruby](), [Temml]() and [KaTeX](),
+Note that you should still have to follow the licenses of [katex-ruby], [Temml] and [KaTeX],
 which are distributed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 See the license files in the [license](license) directory.
 
