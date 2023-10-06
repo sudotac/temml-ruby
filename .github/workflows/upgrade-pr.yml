@@ -2,6 +2,7 @@ name: Upgrade Temml if possible
 on:
   schedule:
     - cron: '30 18 * * 4'
+  workflow_dispatch:
 jobs:
   pr:
     runs-on: ubuntu-latest
