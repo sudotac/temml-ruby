@@ -1,9 +1,10 @@
-name: CI
+name: lint and test
 on:
   push:
     branches:
       - main
   pull_request:
+  workflow_dispatch:
 jobs:
   rubocop:
     runs-on: ubuntu-latest

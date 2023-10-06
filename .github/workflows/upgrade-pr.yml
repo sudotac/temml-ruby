@@ -2,6 +2,7 @@ name: Upgrade Temml if possible
 on:
   schedule:
     - cron: '30 18 * * 4'
+  workflow_dispatch:
 jobs:
   pr:
     runs-on: ubuntu-latest
@@ -35,7 +36,6 @@ jobs:
         run: |
           bundle exec rake "update[${{ steps.check-versions.outputs.newer_version }}]"
       - uses: peter-evans/create-pull-request@v5
-        id: create-pr
         if: >
           steps.check-versions.outputs.current_version != steps.check-versions.outputs.upstream_version &&
           steps.check-versions.outputs.newer_version == steps.check-versions.outputs.upstream_version
@@ -47,8 +47,3 @@ jobs:
           body: Upgrade Temml to v${{ steps.check-versions.outputs.newer_version }}
           assignees: sudotac
           reviewers: sudotac
-      - name: Close and reopen the pull request
-        if: steps.create-pr.outputs.pull-request-operation == 'created'
-        run: |
-          gh pr close ${{ steps.create-pr.outputs.pull-request-number }} -c "Close and reopen pull request to trigger workflows"
-          gh pr reopen ${{ steps.create-pr.outputs.pull-request-number }}
