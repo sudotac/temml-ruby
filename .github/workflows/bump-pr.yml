@@ -1,0 +1,53 @@
+name: Bump temml-ruby
+on:
+  workflow_dispatch:
+jobs:
+  pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        with:
+          bundler-cache: true
+          ruby-version: '3.2'
+      - name: Extract version
+        id: extract-version
+        run: |
+          current_version="$(perl -ne "print \$1 if /(?<!TEMML_)VERSION = '(\d+\.\d+\.\d+)'/" lib/temml/version.rb)"
+          current_major="$(echo "$current_version" | cut -d . -f 1)"
+          current_minor="$(echo "$current_version" | cut -d . -f 2)"
+          current_patch="$(echo "$current_version" | cut -d . -f 3)"
+          next_version="$current_major.$((current_minor + 1)).$current_patch"
+          { \
+            echo "current_version=${current_version}"; \
+            echo "next_version=${next_version}"; \
+          } >> "$GITHUB_OUTPUT"
+          echo "current version: ${current_version}"
+          echo "next version: ${next_version}"
+      - name: Bump version
+        id: bump-version
+        run: |
+          bundle exec rake "bump[${{ steps.extract-version.outputs.next_version }}]"
+          { \
+            printf '# %s\n\n' "${{ steps.extract-version.outputs.next_version }}"; \
+            git log --format='* %s' "v${{ steps.extract-version.outputs.current_version }}..HEAD"; \
+            printf '\n'; \
+            cat CHANGES.md; \
+          } > CHANGES.md.new
+          mv CHANGES.md.new CHANGES.md
+      - uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: rake update[${{ steps.extract-version.outputs.next_version }}]
+          branch: bump-to-${{ steps.extract-version.outputs.next_version }}
+          delete-branch: true
+          title: Bump to v${{ steps.extract-version.outputs.next_version }}
+          body: |
+            Bump to v${{ steps.extract-version.outputs.next_version }}.
+            [![lint and test](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml/badge.svg?branch=bump-to-${{ steps.extract-version.outputs.newer_version }})](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml)
+          assignees: sudotac
+          reviewers: sudotac
