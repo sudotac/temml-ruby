@@ -88,4 +88,23 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
                        "TEMML_VERSION = '#{version}'"))
 end
 
+desc 'Bump version of this gem'
+task :bump, :version do |_task, args|
+  version = args[:version]
+
+  # Update VERSION in version.rb
+  File.write('lib/temml/version.rb',
+             File.read('lib/temml/version.rb')
+                 .gsub(/(?<!TEMML_)VERSION\s*=\s*'.*?'/,
+                       "VERSION = '#{version}'"))
+
+  # Update Gemfile example in README.md
+  File.write('README.md',
+             File.read('README.md')
+                 .gsub(/gem\s+'temml'\s*,\s*'~>\s*\S+'/,
+                       "gem 'temml', '~> #{version}'")
+                 .gsub(/gem\s+specific_install\s+-t\s+v\S+/,
+                       "gem specific_install -t v#{version}"))
+end
+
 task default: :spec
