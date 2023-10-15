@@ -21,7 +21,7 @@ And then execute:
 
 Or install it yourself with [specific\_install rubygem](https://rubygems.org/gems/specific_install) as:
 
-    $ gem specific_install https://github.com/sudotac/temml-ruby.git
+    $ gem specific_install -t v0.5.0 https://github.com/sudotac/temml-ruby.git
 
 ## Usage
 
