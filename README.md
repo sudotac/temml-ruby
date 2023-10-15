@@ -1,6 +1,6 @@
 # Temml for Ruby
 
-[![](https://github.com/sudotac/temml-ruby/actions/workflows/ci.yml/badge.svg)](https://github.com/sudotac/temml-ruby/actions/workflows/ci.yml)
+[![](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml/badge.svg)](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml)
 
 temml-ruby is a fork of [katex-ruby], focusing on the support of [Temml] instead of [KaTeX].
 
