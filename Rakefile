@@ -84,7 +84,7 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
   # Update TEMML_VERSION in version.rb
   File.write('lib/temml/version.rb',
              File.read('lib/temml/version.rb')
-                 .gsub(/TEMML_VERSION = '.*?'/,
+                 .gsub(/TEMML_VERSION\s*=\s*'.*?'/,
                        "TEMML_VERSION = '#{version}'"))
 end
 
