@@ -42,7 +42,7 @@ jobs:
           mv CHANGES.md.new CHANGES.md
       - uses: peter-evans/create-pull-request@v5
         with:
-          commit-message: rake update[${{ steps.extract-version.outputs.next_version }}]
+          commit-message: rake bump[${{ steps.extract-version.outputs.next_version }}]
           branch: bump-to-${{ steps.extract-version.outputs.next_version }}
           delete-branch: true
           title: Bump to v${{ steps.extract-version.outputs.next_version }}
