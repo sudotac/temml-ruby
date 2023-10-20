@@ -1,3 +1,8 @@
+# 0.6.0
+
+* Import Temml v0.10.16
+* Add workflow to bump this gem
+
 # v0.5.0
 
 * Import Temml v0.10.15
