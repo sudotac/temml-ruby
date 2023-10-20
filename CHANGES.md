@@ -1,3 +1,12 @@
+# 0.6.0
+
+* rake update[0.10.16]
+* workflow: Add "bump-pr" workflow to update this gem
+* Rakefile: Add "rake bump" to update this gem
+* Rakefile: Fix regex
+* README: Specify tag explicitly for gem specific_install
+* README: Fix status budge
+
 # v0.5.0
 
 * Import Temml v0.10.15
