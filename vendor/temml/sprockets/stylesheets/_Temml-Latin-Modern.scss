@@ -62,7 +62,15 @@ mo.prime-pad {
   padding-left: 0.08em;
 }
 
-/* Stretch \widetilde in Chromium */
+/* Array cell justification in Firefox & WebKit */
+.tml-right {
+  text-align: right;
+}
+.tml-left {
+  text-align: left;
+}
+
+/* Stretch \widetilde & set array cell justification in Chromium */
 @supports (not (-webkit-backdrop-filter: blur(1px))) and (not (-moz-appearance: none)) {
   .tml-crooked-2 {
     transform: scale(2.0, 1.1)
@@ -73,6 +81,18 @@ mo.prime-pad {
   .tml-crooked-4 {
     transform: scale(4.0, 1.4)
   }
+  .tml-right {
+    text-align: -webkit-right;
+  }
+  .tml-left {
+    text-align: -webkit-left;
+  }
+}
+
+/* Adjust WebKit accents */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  .tml-xshift { transform: translate(0px, 0.45em) }
+  .tml-capshift { transform: translate(0px, 0.35em) }
 }
 
 /* flex-wrap for line-breaking in Chromium */
