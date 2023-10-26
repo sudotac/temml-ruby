@@ -33,13 +33,6 @@ jobs:
         id: bump-version
         run: |
           bundle exec rake "bump[${{ steps.extract-version.outputs.next_version }}]"
-          { \
-            printf '# %s\n\n' "${{ steps.extract-version.outputs.next_version }}"; \
-            git log --format='* %s' "v${{ steps.extract-version.outputs.current_version }}..HEAD"; \
-            printf '\n'; \
-            cat CHANGES.md; \
-          } > CHANGES.md.new
-          mv CHANGES.md.new CHANGES.md
       - uses: peter-evans/create-pull-request@v5
         with:
           commit-message: rake bump[${{ steps.extract-version.outputs.next_version }}]
