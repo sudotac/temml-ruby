@@ -1,4 +1,4 @@
-# 0.6.0
+# v0.6.0
 
 * Import Temml v0.10.16
 * Add workflow to bump this gem
