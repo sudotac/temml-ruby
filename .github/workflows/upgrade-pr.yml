@@ -45,7 +45,9 @@ jobs:
           delete-branch: true
           title: Upgrade Temml to v${{ steps.check-versions.outputs.newer_version }}
           body: |
-            Upgrade Temml to v${{ steps.check-versions.outputs.newer_version }}.
+            Upgrade Temml to v[${{ steps.check-versions.outputs.newer_version }}](https://github.com/ronkok/Temml/releases/tag/v${{ steps.check-versions.outputs.newer_version }}).
+
+            Don't forget to execute the workflow!
             [![lint and test](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml/badge.svg?branch=upgrade-temml-to-${{ steps.check-versions.outputs.newer_version }})](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml)
           assignees: sudotac
           reviewers: sudotac
