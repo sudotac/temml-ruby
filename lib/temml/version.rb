@@ -23,6 +23,6 @@
 # THE SOFTWARE.
 
 module Temml
-  VERSION = '0.7.0'
+  VERSION = '0.8.0'
   TEMML_VERSION = '0.10.18'
 end

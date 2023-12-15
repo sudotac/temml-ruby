@@ -12,7 +12,7 @@ It uses [ExecJS] under the hood.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'temml', '~> 0.7.0', :github => 'sudotac/temml-ruby'
+gem 'temml', '~> 0.8.0', :github => 'sudotac/temml-ruby'
 ```
 
 And then execute:
@@ -21,7 +21,7 @@ And then execute:
 
 Or install it yourself with [specific\_install rubygem](https://rubygems.org/gems/specific_install) as:
 
-    $ gem specific_install -t v0.7.0 https://github.com/sudotac/temml-ruby.git
+    $ gem specific_install -t v0.8.0 https://github.com/sudotac/temml-ruby.git
 
 ## Usage
 
