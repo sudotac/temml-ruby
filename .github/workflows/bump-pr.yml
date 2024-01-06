@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: CC0-1.0
 name: Bump temml-ruby
 on:
   workflow_dispatch:
