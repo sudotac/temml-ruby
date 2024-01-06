@@ -1,6 +1,8 @@
 # v0.11.0
 
 * Import Temml v0.10.21
+* Add Ruby 3.3 support
+* Use SPDX-License-Identifier
 
 # v0.10.0
 
@@ -52,8 +54,4 @@
 * Import Temml v0.10.11
 * Update Ruby scripts to support Temml
 * Add GitHub Actions for rubocop and rspec
-
-
-
-
 
