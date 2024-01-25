@@ -1,3 +1,7 @@
+# v0.12.0
+
+* Import Temml v0.10.22
+
 # v0.11.0
 
 * Import Temml v0.10.21
@@ -54,4 +58,5 @@
 * Import Temml v0.10.11
 * Update Ruby scripts to support Temml
 * Add GitHub Actions for rubocop and rspec
+
 
