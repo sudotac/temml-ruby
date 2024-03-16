@@ -38,7 +38,7 @@ jobs:
           steps.check-versions.outputs.newer_version == steps.check-versions.outputs.upstream_version
         run: |
           bundle exec rake "update[${{ steps.check-versions.outputs.newer_version }}]"
-      - uses: peter-evans/create-pull-request@v5
+      - uses: peter-evans/create-pull-request@v6
         if: >
           steps.check-versions.outputs.current_version != steps.check-versions.outputs.upstream_version &&
           steps.check-versions.outputs.newer_version == steps.check-versions.outputs.upstream_version

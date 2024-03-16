@@ -34,7 +34,7 @@ jobs:
         id: bump-version
         run: |
           bundle exec rake "bump[${{ steps.extract-version.outputs.next_version }}]"
-      - uses: peter-evans/create-pull-request@v5
+      - uses: peter-evans/create-pull-request@v6
         with:
           commit-message: rake bump[${{ steps.extract-version.outputs.next_version }}]
           branch: bump-to-${{ steps.extract-version.outputs.next_version }}
