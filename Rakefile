@@ -46,7 +46,7 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
   FileUtils.mkdir_p css_path
   sprockets_css_path = File.join(assets_path, 'sprockets', 'stylesheets')
   FileUtils.mkdir_p sprockets_css_path
-  %w[Local Asana Latin-Modern Libertinus STIX2].each do |variant|
+  %w[Local Asana Fira Latin-Modern Libertinus STIX2].each do |variant|
     var_css = File.join(dist_path, "Temml-#{variant}.css")
     FileUtils.cp var_css, css_path
 
