@@ -20,10 +20,10 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
   end
   dl_path = File.join('tmp', 'temml-dl', version)
   FileUtils.mkdir_p(dl_path)
-  archive_path = File.join(dl_path, "v#{version}.tar.gz")
+  archive_path = File.join(dl_path, "#{version}.tar.gz")
   unless File.exist?(archive_path)
     url = 'https://github.com/ronkok/Temml/archive/refs/tags/' \
-          "v#{version}.tar.gz"
+          "#{version}.tar.gz"
     IO.copy_stream(URI.open(url), archive_path) # rubocop:disable Security/Open
   end
   temml_path = File.join(File.dirname(archive_path), "Temml-#{version}")
@@ -73,7 +73,7 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
   File.write('CHANGES.md', <<~CHANGE
     # v#{gem_version[0]}.#{gem_version[1]}.#{gem_version[2]}
 
-    * Import Temml v#{version}
+    * Import Temml #{version}
 
     #{File.read('CHANGES.md')}
   CHANGE
