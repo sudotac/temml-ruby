@@ -1,3 +1,7 @@
+# v0.16.0
+
+* Import Temml 0.10.26
+
 # v0.15.0
 
 * Import Temml v0.10.25
