@@ -40,11 +40,11 @@ module Temml
         'temml.renderToString',
         math,
         displayMode: display_mode,
-        annotate: annotate,
-        leqno: leqno,
+        annotate:,
+        leqno:,
         throwOnError: throw_on_error,
         errorColor: error_color,
-        macros: macros,
+        macros:,
         **render_options
       )
     rescue ExecJS::ProgramError => e
