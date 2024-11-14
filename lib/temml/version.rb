@@ -4,5 +4,5 @@
 
 module Temml
   VERSION = '0.19.0'
-  TEMML_VERSION = '0.10.29'
+  TEMML_VERSION = '0.10.30'
 end
