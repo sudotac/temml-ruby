@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '30 18 * * 4'
   workflow_dispatch:
+    inputs:
+      target_version:
+        description: 'Temml version'
 jobs:
   pr:
     runs-on: ubuntu-latest
@@ -22,7 +25,11 @@ jobs:
         id: check-versions
         run: |
           current_version=$(perl -ne "print \$1 if /TEMML_VERSION = '(\d+\.\d+\.\d+)'/" lib/temml/version.rb)
-          upstream_version=$(curl -sL https://api.github.com/repos/ronkok/Temml/releases/latest | jq -r '.tag_name' | sed 's/^v//')
+          if [ -n "${{ github.event.inputs.target_version }}" ]; then
+            upstream_version="${{ github.event.inputs.target_version }}"
+          else
+            upstream_version=$(curl -sL https://api.github.com/repos/ronkok/Temml/releases/latest | jq -r '.tag_name' | sed 's/^v//')
+          fi
           newer_version=$(echo -e "${current_version}\n${upstream_version}" | sort -V | tail -n1)
           { \
             echo "current_version=${current_version}"; \
