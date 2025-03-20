@@ -40,7 +40,7 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
   FileUtils.cp_r File.join(dist_path, 'images'), assets_path if File.directory? File.join(dist_path, 'images')
   js_path = File.join(assets_path, 'javascripts')
   FileUtils.mkdir_p js_path
-  FileUtils.cp File.join(dist_path, 'temml.min.js'), js_path
+  FileUtils.cp File.join(dist_path, 'temml.js'), js_path
 
   css_path = File.join(assets_path, 'stylesheets')
   FileUtils.mkdir_p css_path
