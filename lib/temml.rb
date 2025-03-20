@@ -67,8 +67,7 @@ module Temml
     end
 
     def temml_js_path
-      File.expand_path File.join('vendor', 'temml', 'javascripts',
-                                 'temml.min.js'),
+      File.expand_path File.join('vendor', 'temml', 'javascripts', 'temml.js'),
                        gem_path
     end
 
