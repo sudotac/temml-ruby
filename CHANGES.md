@@ -1,6 +1,7 @@
 # v0.24.0
 
 * Import Temml v0.10.34
+* Prefer original (non-minified) js over minified one
 
 # v0.23.0
 
