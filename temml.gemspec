@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/sudotac/temml-ruby'
   s.license = 'CC0-1.0 AND MIT'
 
-  s.required_ruby_version = '>= 3.1'
+  s.required_ruby_version = '>= 3.2'
 
   s.files = Dir['{exe,lib,vendor,license}/**/*'] + %w[COPYING.txt README.md]
   s.bindir = 'exe'
