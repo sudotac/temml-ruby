@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: CC0-1.0 AND MIT
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.2
   Exclude:
     - 'tmp/**/*'
     - 'vendor/**/*'
