@@ -1,6 +1,7 @@
 # v0.26.0
 
 * Import Temml v0.11.01
+* Drop support of Ruby 3.1
 
 # v0.25.0
 
