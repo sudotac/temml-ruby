@@ -17,6 +17,9 @@ module Temml
 
     # Renders the given math expression to MathML via temml.renderToString.
     #
+    # Additional options must be passed as anonymous keyword arguments.
+    # See https://temml.org/docs/en/administration.html#options
+    #
     # @param math [String] The math (Latex) expression
     # @param display_mode [Boolean] Whether to render in display mode.
     # @param annotate [Boolean] Whether to include an <annotation> element.
@@ -27,15 +30,13 @@ module Temml
     #   the native temml).
     # @param error_color [String] Error text CSS color.
     # @param macros [Hash] A collection of custom macros.
-    # @param render_options [Hash] Additional options for temml.renderToString.
-    #   See https://temml.org/docs/en/administration.html#options
     # @return [String] MathML. If strings respond to html_safe, the result will
     #   be HTML-safe.
     # @note This method is thread-safe as long as your ExecJS runtime is
     #   thread-safe. MiniRacer is the recommended runtime.
     def render(math, display_mode: false, annotate: false, leqno: false,
                throw_on_error: true, error_color: '#b22222', macros: {},
-               **render_options)
+               **)
       maybe_html_safe temml_context.call(
         'temml.renderToString',
         math,
@@ -45,7 +46,7 @@ module Temml
         throwOnError: throw_on_error,
         errorColor: error_color,
         macros:,
-        **render_options
+        **
       )
     rescue ExecJS::ProgramError => e
       raise e if throw_on_error
