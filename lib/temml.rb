@@ -13,7 +13,7 @@ module Temml
   @execjs_runtime = -> { ExecJS.runtime }
 
   class << self
-    # rubocop:disable Metrics/MethodLength,Metrics/ParameterLists
+    # rubocop:disable Metrics/MethodLength
 
     # Renders the given math expression to MathML via temml.renderToString.
     #
@@ -22,30 +22,22 @@ module Temml
     #
     # @param math [String] The math (Latex) expression
     # @param display_mode [Boolean] Whether to render in display mode.
-    # @param annotate [Boolean] Whether to include an <annotation> element.
-    # @param leqno [Boolean] Whether to render "\tag"s on the left
-    #   instead of the right.
     # @param throw_on_error [Boolean] Whether to raise on error. If false,
     #   renders the error message instead (even in case of ParseError, unlike
     #   the native temml).
     # @param error_color [String] Error text CSS color.
-    # @param macros [Hash] A collection of custom macros.
     # @return [String] MathML. If strings respond to html_safe, the result will
     #   be HTML-safe.
     # @note This method is thread-safe as long as your ExecJS runtime is
     #   thread-safe. MiniRacer is the recommended runtime.
-    def render(math, display_mode: false, annotate: false, leqno: false,
-               throw_on_error: true, error_color: '#b22222', macros: {},
-               **)
+    def render(math, display_mode: false, throw_on_error: true,
+               error_color: '#b22222', **)
       maybe_html_safe temml_context.call(
         'temml.renderToString',
         math,
         displayMode: display_mode,
-        annotate:,
-        leqno:,
         throwOnError: throw_on_error,
         errorColor: error_color,
-        macros:,
         **
       )
     rescue ExecJS::ProgramError => e
@@ -53,7 +45,7 @@ module Temml
 
       render_exception e, error_color
     end
-    # rubocop:enable Metrics/MethodLength,Metrics/ParameterLists
+    # rubocop:enable Metrics/MethodLength
 
     # The ExecJS runtime factory, default: `-> { ExecJS.runtime }`.
     # Set this before calling any other methods to use a different runtime.
