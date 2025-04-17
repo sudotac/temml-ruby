@@ -2457,9 +2457,6 @@ var temml = (function () {
     if (settings.xml) {
       math.setAttribute("xmlns", "http://www.w3.org/1998/Math/MathML");
     }
-    if (wrapper.style.width) {
-      math.style.width = "100%";
-    }
     if (settings.displayMode) {
       math.setAttribute("display", "block");
       math.style.display = "block math"; // necessary in Chromium.
@@ -4553,7 +4550,7 @@ var temml = (function () {
       const numColumns = group.body[0].length;
       // Fill out a short row with empty <mtd> elements.
       for (let k = 0; k < numColumns - rw.length; k++) {
-        row.push(new mathMLTree.MathNode("mtd", [], style));
+        row.push(new mathMLTree.MathNode("mtd", [], [], style));
       }
       if (group.autoTag) {
         const tag = group.tags[i];
@@ -5013,7 +5010,9 @@ var temml = (function () {
         }
       }
       const res = parseArray(context.parser, payload, "text");
-      res.cols = new Array(res.body[0].length).fill({ type: "align", align: colAlign });
+      res.cols = res.body.length > 0
+        ? new Array(res.body[0].length).fill({ type: "align", align: colAlign })
+        : [];
       const [arraystretch, arraycolsep] = arrayGaps(context.parser.gullet.macros);
       res.arraystretch = arraystretch;
       if (arraycolsep && !(arraycolsep === 6 && arraycolsep === "pt")) {
@@ -5042,7 +5041,9 @@ var temml = (function () {
     handler(context) {
       const payload = { cols: [], envClasses: ["bordermatrix"] };
       const res = parseArray(context.parser, payload, "text");
-      res.cols = new Array(res.body[0].length).fill({ type: "align", align: "c" });
+      res.cols = res.body.length > 0
+        ? new Array(res.body[0].length).fill({ type: "align", align: "c" })
+        : [];
       res.envClasses = [];
       res.arraystretch = 1;
       if (context.envName === "matrix") { return res}
@@ -5476,6 +5477,9 @@ var temml = (function () {
     // So instead of wrapping the group in an <mstyle>, we apply
     // the color individually to each node and return a document fragment.
     let expr = buildExpression(group.body, style.withColor(group.color));
+    if (expr.length === 0) {
+      expr.push(new mathMLTree.MathNode("mrow"));
+    }
     expr = expr.map(e => {
       e.style.color = group.color;
       return e
@@ -6562,17 +6566,20 @@ var temml = (function () {
     // Check if it is possible to consolidate elements into a single <mi> element.
     if (isLongVariableName(group, font)) {
       // This is a \mathrm{…} group. It gets special treatment because symbolsOrd.js
-      // wraps <mi> elements with <mrow>s to work around a Firefox bug.
-      const mi = mathGroup.children[0].children[0];
+      // wraps <mi> elements with <mpadded>s to work around a Firefox bug.
+      const mi = mathGroup.children[0].children[0].children
+        ? mathGroup.children[0].children[0]
+        : mathGroup.children[0];
       delete mi.attributes.mathvariant;
       for (let i = 1; i < mathGroup.children.length; i++) {
         mi.children[0].text += mathGroup.children[i].children[0].children
           ? mathGroup.children[i].children[0].children[0].text
           : mathGroup.children[i].children[0].text;
       }
-      // Wrap in a <mrow> to prevent the same Firefox bug.
-      const bogus = new mathMLTree.MathNode("mtext", new mathMLTree.TextNode("\u200b"));
-      return new mathMLTree.MathNode("mrow", [bogus, mi])
+      // Wrap in a <mpadded> to prevent the same Firefox bug.
+      const mpadded = new mathMLTree.MathNode("mpadded", [mi]);
+      mpadded.setAttribute("lspace", "0");
+      return mpadded
     }
     let canConsolidate = mathGroup.children[0].type === "mo";
     for (let i = 1; i < mathGroup.children.length; i++) {
@@ -8647,7 +8654,8 @@ var temml = (function () {
     names: ["\\relax"],
     props: {
       numArgs: 0,
-      allowedInText: true
+      allowedInText: true,
+      allowedInArgument: true
     },
     handler({ parser }) {
       return {
@@ -11063,6 +11071,7 @@ var temml = (function () {
         if (!atom) {
           break;
         } else if (atom.type === "internal") {
+          // Internal nodes do not appear in parse tree
           continue;
         }
         body.push(atom);
@@ -11137,7 +11146,11 @@ var temml = (function () {
       const symbol = symbolToken.text;
       this.consume();
       this.consumeSpaces(); // ignore spaces before sup/subscript argument
-      const group = this.parseGroup(name);
+      // Skip over allowed internal nodes such as \relax
+      let group;
+      do {
+        group = this.parseGroup(name);
+      } while (group.type && group.type === "internal")
 
       if (!group) {
         throw new ParseError("Expected group after '" + symbol + "'", symbolToken);
@@ -11181,9 +11194,15 @@ var temml = (function () {
       // \left(x\right)^2 work correctly.
       const base = this.parseGroup("atom", breakOnTokenText);
 
+      // Internal nodes (e.g. \relax) cannot support super/subscripts.
+      // Instead we will pick up super/subscripts with blank base next round.
+      if (base && base.type === "internal") {
+        return base
+      }
+
       // In text mode, we don't have superscripts or subscripts
       if (this.mode === "text") {
-        return base;
+        return base
       }
 
       // Note that base may be empty (i.e. null) at this point.
@@ -12040,7 +12059,7 @@ var temml = (function () {
    * https://mit-license.org/
    */
 
-  const version = "0.11.03";
+  const version = "0.11.05";
 
   function postProcess(block) {
     const labelMap = {};
