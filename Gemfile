@@ -8,6 +8,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'bundler', '~> 2.0'
+gem 'minitar', '~> 1.0.2'
 gem 'rake', '~> 13.0'
 gem 'rspec', '~> 3.0'
 gem 'rubocop', '~> 1.0'
