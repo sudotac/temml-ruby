@@ -24,7 +24,7 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
   unless File.exist?(archive_path)
     url = 'https://github.com/ronkok/Temml/archive/refs/tags/' \
           "v#{version}.tar.gz"
-    IO.copy_stream(URI.open(url), archive_path) # rubocop:disable Security/Open
+    IO.copy_stream(URI.parse(url).open, archive_path)
   end
   temml_path = File.join(File.dirname(archive_path), "Temml-#{version}")
   system 'tar', 'xf', archive_path, '-C', File.dirname(archive_path) unless File.directory?(temml_path)
