@@ -66,18 +66,6 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
              File.read('lib/temml/version.rb')
                  .gsub(/TEMML_VERSION\s*=\s*'.*?'/,
                        "TEMML_VERSION = '#{version}'"))
-
-  # Update CHANGES.md
-  gem_version = Temml::VERSION.split('.').map(&:to_i)
-  gem_version[1] += 1 # bump minor version
-  File.write('CHANGES.md', <<~CHANGE.chomp
-    # v#{gem_version[0]}.#{gem_version[1]}.#{gem_version[2]}
-
-    * Import Temml v#{version}
-
-    #{File.read('CHANGES.md')}
-  CHANGE
-  )
 end
 
 desc 'Bump version of this gem'
