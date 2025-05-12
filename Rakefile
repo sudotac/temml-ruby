@@ -4,6 +4,8 @@
 
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
+require 'minitar'
+require 'zlib'
 
 RSpec::Core::RakeTask.new(:spec)
 
@@ -19,16 +21,10 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
     exit 64
   end
   dl_path = File.join('tmp', 'temml-dl', version)
-  FileUtils.mkdir_p(dl_path)
-  archive_path = File.join(dl_path, "v#{version}.tar.gz")
-  unless File.exist?(archive_path)
-    url = 'https://github.com/ronkok/Temml/archive/refs/tags/' \
-          "v#{version}.tar.gz"
-    IO.copy_stream(URI.parse(url).open, archive_path)
-  end
-  temml_path = File.join(File.dirname(archive_path), "Temml-#{version}")
-  system 'tar', 'xf', archive_path, '-C', File.dirname(archive_path) unless File.directory?(temml_path)
-  dist_path = File.join(temml_path, 'dist')
+  url = 'https://github.com/ronkok/Temml/archive/refs/tags/' \
+        "v#{version}.tar.gz"
+  Minitar.unpack(Zlib::GzipReader.new(URI.parse(url).open), dl_path)
+  dist_path = File.join(dl_path, "Temml-#{version}", 'dist')
 
   # Copy assets
   assets_path = File.join('vendor', 'temml')
