@@ -13,7 +13,7 @@ module Temml
   @execjs_runtime = -> { ExecJS.runtime }
 
   class << self
-    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Naming/MethodParameterName, Naming/VariableName
 
     # Renders the given math expression to MathML via temml.renderToString.
     #
@@ -21,31 +21,24 @@ module Temml
     # See https://temml.org/docs/en/administration.html#options
     #
     # @param math [String] The math (Latex) expression
-    # @param display_mode [Boolean] Whether to render in display mode.
-    # @param throw_on_error [Boolean] Whether to raise on error. If false,
+    # @param throwOnError [Boolean] Whether to raise on error. If false,
     #   renders the error message instead (even in case of ParseError, unlike
     #   the native temml).
-    # @param error_color [String] Error text CSS color.
     # @return [String] MathML. If strings respond to html_safe, the result will
     #   be HTML-safe.
     # @note This method is thread-safe as long as your ExecJS runtime is
     #   thread-safe. MiniRacer is the recommended runtime.
-    def render(math, display_mode: false, throw_on_error: true,
-               error_color: '#b22222', **)
+    def render(math, throwOnError: true, **)
       maybe_html_safe temml_context.call(
         'temml.renderToString',
         math,
-        displayMode: display_mode,
-        throwOnError: throw_on_error,
-        errorColor: error_color,
+        throwOnError:,
         **
       )
     rescue ExecJS::ProgramError => e
-      raise e if throw_on_error
-
-      render_exception e, error_color
+      raise e if throwOnError
     end
-    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Naming/MethodParameterName, Naming/VariableName
 
     # The ExecJS runtime factory, default: `-> { ExecJS.runtime }`.
     # Set this before calling any other methods to use a different runtime.
@@ -70,14 +63,6 @@ module Temml
     end
 
     private
-
-    def render_exception(exception, error_color)
-      maybe_html_safe <<~HTML
-        <span class='temml-error' style='color: #{error_color}; white-space: pre-line;'>
-          #{ERB::Util.h exception.message.sub(/^ParseError: /, '')}
-        </span>
-      HTML
-    end
 
     def maybe_html_safe(html)
       if html.respond_to?(:html_safe)
