@@ -35,11 +35,11 @@ Temml.render('c = \\pm\\sqrt{a^2 + b^2}')
 If you're on Rails, the result is marked as `html_safe`.
 
 Any error in the markup is raised by default. To avoid this and render error
-text instead, pass `throw_on_error: false`:
+text instead, pass `throwOnError: false`:
 
 ```ruby
-Temml.render '\\', throw_on_error: false
-=> "<span class=\"temml-error\" style=\"color:#b22222;white-space:pre-line;\">\\\nParseError:  Unexpected character: &#x27;\\&#x27; at position 1: \\̲</span>"
+Temml.render('\\', throwOnError: false)
+=> "<span class=\"temml-error\" style=\"color:#b22222;white-space:pre-line;\">\\\n\nParseError:  Unexpected character: &#x27;\\&#x27; at position 1: \n\\̲</span>"
 ```
 
 Note that this will catch even `ParseError`s (unlike native Temml).

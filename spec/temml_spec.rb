@@ -15,7 +15,7 @@ describe Temml do
   end
 
   it 'passes options to temml' do
-    expect(Temml.render('c', display_mode: true)).to \
+    expect(Temml.render('c', displayMode: true)).to \
       include('<math display="block"')
   end
 end
