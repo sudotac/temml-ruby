@@ -13,3 +13,5 @@ gem 'rake', '~> 13.0'
 gem 'rspec', '~> 3.0'
 gem 'rubocop', '~> 1.0'
 gem 'simplecov', '~> 0.22.0'
+
+gem 'nokogiri', '~> 1.18'
