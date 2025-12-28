@@ -26,5 +26,7 @@ describe Temml do
   it 'throw exception on error (or not)' do
     expect { Temml.render('e^{i\pi') }.to raise_error(ExecJS::ProgramError)
     expect { Temml.render('e^{i\pi', throwOnError: false) }.not_to raise_error
+    expect { Temml.render('\UnsupportedFunctionNameLikeThat') }.to raise_error(ExecJS::ProgramError)
+    expect { Temml.render('\UnsupportedFunctionNameLikeThat', throwOnError: false) }.not_to raise_error
   end
 end
