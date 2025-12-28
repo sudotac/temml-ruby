@@ -7,7 +7,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in temml.gemspec
 gemspec
 
-gem 'bundler', '~> 2.0'
+gem 'bundler'
 gem 'minitar', '~> 1.0.2'
 gem 'rake', '~> 13.0'
 gem 'rspec', '~> 3.0'
