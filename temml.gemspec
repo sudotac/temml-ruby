@@ -15,7 +15,10 @@ Gem::Specification.new do |s|
   s.summary = 'Renders Temml from Ruby.'
   s.description = 'Exposes Temml server-side renderer to Ruby.'
   s.homepage = 'https://github.com/sudotac/temml-ruby'
-  s.license = 'CC0-1.0 AND MIT'
+
+  # 'CC0-1.0 AND MIT' is intended, but can't express precisely in the current spec of gemspec
+  # https://github.com/ruby/rubygems/issues/2713
+  s.licenses = ['CC0-1.0', 'MIT']
 
   s.required_ruby_version = '>= 3.2'
 
