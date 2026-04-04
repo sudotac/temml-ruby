@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   # https://github.com/ruby/rubygems/issues/2713
   s.licenses = ['CC0-1.0', 'MIT']
 
-  s.required_ruby_version = '>= 3.2'
+  s.required_ruby_version = '>= 3.3'
 
   s.files = Dir['{exe,lib,vendor,license}/**/*'] + %w[COPYING.txt README.md]
   s.bindir = 'exe'
