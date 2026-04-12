@@ -8,5 +8,5 @@ jobs:
   actionlint:
     runs-on: ubuntu-slim
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: raven-actions/actionlint@v2.1.2
