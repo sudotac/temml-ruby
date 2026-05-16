@@ -22,9 +22,9 @@ task :update, :version do |_task, args| # rubocop:disable Metrics/BlockLength
   end
   dl_path = File.join('tmp', 'temml-dl', version)
   url = 'https://github.com/ronkok/Temml/archive/refs/tags/' \
-        "v#{version}.tar.gz"
+        "main-v#{version}.tar.gz"
   Minitar.unpack(Zlib::GzipReader.new(URI.parse(url).open), dl_path)
-  dist_path = File.join(dl_path, "Temml-#{version}", 'dist')
+  dist_path = File.join(dl_path, "Temml-main-v#{version}", 'dist')
 
   # Copy assets
   assets_path = File.join('vendor', 'temml')
