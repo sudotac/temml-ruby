@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 3.3'
 
-  s.files = Dir['{exe,lib,vendor,license}/**/*'] + %w[COPYING.txt README.md]
+  s.files = Dir['{exe,lib,vendor/temml,license}/**/*'] + %w[COPYING.txt README.md]
   s.bindir = 'exe'
   s.executables = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
   s.require_paths = ['lib']
