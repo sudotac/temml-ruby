@@ -29,5 +29,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'execjs', '~> 2.7'
 
-  s.metadata['rubygems_mfa_required'] = 'false' # rubocop:disable Gemspec/RequireMFA
+  s.metadata['rubygems_mfa_required'] = 'true'
 end
