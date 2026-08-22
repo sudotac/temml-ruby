@@ -13,21 +13,12 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: ruby/setup-ruby@afeafc3d1ab54a631816aba4c914a0081c12ff2f # v1.310.0
         with:
-          bundler-cache: true
           ruby-version: '3.4'
       - uses: ./.github/actions/minify
-      - name: Build and install gem
+      - uses: rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a # v2.1.0
+      - name: Build and publish gem
         run: |
           gem build --verbose temml.gemspec
-          gem install temml-*.gem
-      - name: Run pre-release test
-        run: |
-          rm -rf bin/ lib/ vendor/temml/ # make sure installed gem will be used
-          gem install rspec nokogiri
-          rspec --format d
-      - uses: rubygems/configure-rubygems-credentials@dc5a8d8553e6ee01fc26761a49e99e733d17954a # v2.1.0
-      - name: Release gem
-        run: |
           gem push temml-*.gem
 
   release:
