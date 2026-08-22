@@ -13,6 +13,7 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
+      actions: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -60,7 +61,13 @@ jobs:
           body: |
             Upgrade Temml to [v${{ steps.check_versions.outputs.newer_version }}](https://github.com/ronkok/Temml/releases/tag/v${{ steps.check_versions.outputs.newer_version }}).
 
-            Don't forget to run the workflow!
             [![lint and test](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml/badge.svg?branch=${{ steps.check_versions.outputs.branch_name }})](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml?query=branch%3A${{ steps.check_versions.outputs.branch_name }})
           assignees: sudotac
           reviewers: sudotac
+      - uses: benc-uk/workflow-dispatch@31e2b3319479a63f0ab15bf800eff9e913504e26 # v1.3.2
+        if: steps.check_versions.outputs.run_upgrade == 'true'
+        with:
+          workflow: lint-and-test.yml
+          ref: refs/heads/${{ steps.check_versions.outputs.branch_name }}
+          wait-for-completion: 'true'
+          sync-status: 'true'
