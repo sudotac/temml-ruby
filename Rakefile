@@ -77,10 +77,8 @@ task :bump, :version do |_task, args|
   # Update Gemfile example in README.md
   File.write('README.md',
              File.read('README.md', encoding: 'UTF-8')
-                 .gsub(/gem\s+'temml'\s*,\s*'~>\s*\S+'\s*,\s*(.*),\s*:tag\s*=>\s*'v\S+'/,
-                       "gem 'temml', '~> #{version}', \\1, :tag => 'v#{version}'")
-                 .gsub(/gem\s+specific_install\s+-t\s+v\S+/,
-                       "gem specific_install -t v#{version}"))
+                 .gsub(/gem\s+'temml'\s*,\s*'~>\s*\S+'/,
+                       "gem 'temml', '~> #{version}'"))
 end
 
 task default: :spec
