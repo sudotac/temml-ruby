@@ -17,33 +17,33 @@ jobs:
           bundler-cache: true
           ruby-version: '3.4'
       - name: Extract version
-        id: extract-version
+        id: extract_version
         run: |
-          current_version="$(perl -ne "print \$1 if /(?<!TEMML_)VERSION = '(\d+\.\d+\.\d+)'/" lib/temml/version.rb)"
+          current_version="$(grep '^[[:space:]]*VERSION' lib/temml/version.rb | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
           current_major="$(echo "$current_version" | cut -d . -f 1)"
           current_minor="$(echo "$current_version" | cut -d . -f 2)"
           current_patch="$(echo "$current_version" | cut -d . -f 3)"
           next_version="$current_major.$((current_minor + 1)).$current_patch"
-          { \
-            echo "current_version=${current_version}"; \
-            echo "next_version=${next_version}"; \
+          {
+            echo "current_version=$current_version"
+            echo "next_version=$next_version"
+            echo "branch_name=bump-to-$next_version"
           } >> "$GITHUB_OUTPUT"
-          echo "current version: ${current_version}"
-          echo "next version: ${next_version}"
+          cat "$GITHUB_OUTPUT"
       - name: Bump version
-        id: bump-version
+        id: bump_version
         run: |
-          bundle exec rake "bump[${{ steps.extract-version.outputs.next_version }}]"
+          bundle exec rake "bump[${{ steps.extract_version.outputs.next_version }}]"
       - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          commit-message: rake bump[${{ steps.extract-version.outputs.next_version }}]
-          branch: bump-to-${{ steps.extract-version.outputs.next_version }}
+          commit-message: rake bump[${{ steps.extract_version.outputs.next_version }}]
+          branch: ${{ steps.extract_version.outputs.branch_name }}
           delete-branch: true
-          title: Bump to v${{ steps.extract-version.outputs.next_version }}
+          title: Bump to v${{ steps.extract_version.outputs.next_version }}
           body: |
-            Bump to v${{ steps.extract-version.outputs.next_version }}.
+            Bump to v${{ steps.extract_version.outputs.next_version }}.
 
-            Don't forget to execute the workflow!
-            [![lint and test](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml/badge.svg?branch=bump-to-${{ steps.extract-version.outputs.next_version }})](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml)
+            Don't forget to run the workflow!
+            [![lint and test](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml/badge.svg?branch=${{ steps.extract_version.outputs.branch_name }})](https://github.com/sudotac/temml-ruby/actions/workflows/lint-and-test.yml?query=branch%3A${{ steps.extract_version.outputs.branch_name }})
           assignees: sudotac
           reviewers: sudotac
