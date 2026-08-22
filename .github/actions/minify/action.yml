@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: CC0-1.0
+name: Minify Temml
+description: Minify bundled Temml javascript source
+runs:
+  using: composite
+  steps:
+    - name: Install terser
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y terser
+
+    - name: Minify Temml
+      shell: bash
+      run: |
+        terser \
+          --compress \
+          --mangle \
+          --output vendor/temml/javascripts/temml.min.js \
+          vendor/temml/javascripts/temml.js
+        mv -f \
+          vendor/temml/javascripts/temml.min.js \
+          vendor/temml/javascripts/temml.js

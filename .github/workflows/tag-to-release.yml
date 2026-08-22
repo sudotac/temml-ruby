@@ -15,18 +15,7 @@ jobs:
         with:
           bundler-cache: true
           ruby-version: '3.4'
-      - name: Minify Temml
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y terser
-          terser \
-            --compress \
-            --mangle \
-            --output vendor/temml/javascripts/temml.min.js \
-            vendor/temml/javascripts/temml.js
-          mv -f \
-            vendor/temml/javascripts/temml.min.js \
-            vendor/temml/javascripts/temml.js
+      - uses: ./.github/actions/minify
       - name: Build and install gem
         run: |
           gem build --verbose temml.gemspec
