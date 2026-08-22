@@ -12,16 +12,16 @@ It uses [ExecJS] under the hood.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'temml', '~> 0.30.0', :github => 'sudotac/temml-ruby', :tag => 'v0.30.0'
+gem 'temml', '~> 0.30.0'
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself with [specific\_install rubygem](https://rubygems.org/gems/specific_install) as:
+Or install it yourself as:
 
-    $ gem specific_install -t v0.30.0 https://github.com/sudotac/temml-ruby.git
+    $ gem install temml
 
 ## Usage
 
