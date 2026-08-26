@@ -12,7 +12,7 @@ It uses [ExecJS] under the hood.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'temml', '~> 0.30.0'
+gem 'temml', '~> 0.31.0'
 ```
 
 And then execute:
