@@ -1,3 +1,12 @@
+# v0.31.0
+
+* Change arguments of Temml.render ([#94](https://github.com/sudotac/temml-ruby/pull/94))
+* Drop support of Ruby 3.2 ([#106](https://github.com/sudotac/temml-ruby/pull/106))
+* Minify temml js before gem build ([#114](https://github.com/sudotac/temml-ruby/pull/114))
+* Import Temml v0.13.5 ([#119](https://github.com/sudotac/temml-ruby/pull/119))
+
+NOTE: This is the first release available on RubyGems.
+
 # v0.30.0
 
 * Import Temml v0.11.05
